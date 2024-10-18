@@ -5,7 +5,9 @@
 
 public class GraphApp {
     public static void main(String[] args) {
+        long startTime = System.nanoTime();
         Graph theGraph = new Graph();
+
         theGraph.addVertex('1');    // 0 (starting point for mst, bfs, dfs)
         theGraph.addVertex('2');    // 1
         theGraph.addVertex('3');    // 2
@@ -29,18 +31,20 @@ public class GraphApp {
         // theGraph.mst();             // Minimum Spanning Tree
         // System.out.println();
 
-        System.out.print("BFS Visits: ");
+        System.out.print("BFS Visits: " + "\n");
         theGraph.bfs(0);             // Breadth-First Search
         System.out.println();
 
-        System.out.print("DFS Visits: ");
+        System.out.print("DFS Visits: "+ "\n");
         theGraph.dfs(0);             // Depth-First Search
         System.out.println();
 
-        System.out.print("Path from 1 to 6: ");
+        System.out.print("Path from 1 to 6: " + "\n");
         theGraph.findPath(0, 5);    // Find path from vertex 1 to vertex 6
 
         theGraph.printAdjacencyMatrix(); // Print the adjacency matrix of the graph
+
+        System.out.println("Time taken: " + "\n" + (System.nanoTime() - startTime) + " ns");
 
     }  // end main()
 }  // end class GraphApp

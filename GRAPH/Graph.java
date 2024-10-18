@@ -1,6 +1,8 @@
 // Graph.java
 // Class to implement the graph and its algorithms
 ////////////////////////////////////////////////////////////////
+import java.util.ArrayList;
+import java.util.List;
 
 public class Graph {
     private final int MAX_VERTS = 20;
@@ -37,71 +39,82 @@ public class Graph {
 
     public void mst() { // minimum spanning tree (depth first)
         vertexList[0].wasVisited = true; // mark it
-        theStack.push(0);                // push it
-
-        while (!theStack.isEmpty()) {    // until the stack is empty
-            int currentVertex = theStack.peek();
+        theStack.push(vertexList[0].label); // push it
+        while (!theStack.isEmpty()) { // until the stack is empty
+            int currentVertex = getVertexIndex(theStack.peek());
             // get the next unvisited neighbor
             int v = getAdjUnvisitedVertex(currentVertex);
-            if (v == -1)                  // if no more neighbors
-                theStack.pop();           // pop it
-            else {                        // found a neighbor
+            if (v == -1) // if no more neighbors
+                theStack.pop(); // pop it
+            else { // found a neighbor
                 vertexList[v].wasVisited = true; // mark it
-                theStack.push(v);                // push it
+                theStack.push(vertexList[v].label); // push it
                 // display the edge
-                displayVertex(currentVertex);     // from currentV
-                displayVertex(v);                 // to v
+                displayVertex(currentVertex); // from currentV
+                displayVertex(v); // to v
                 System.out.print(" ");
             }
-        }  // end while
-
+        } // end while
         // the stack is empty, so we're done
         for (int j = 0; j < nVerts; j++) // reset flags
             vertexList[j].wasVisited = false;
-    }  // end mst()
+    } // end mst()
 
     public void bfs(int start) { // breadth-first search
+        List<Character> traversal = new ArrayList<>();
         vertexList[start].wasVisited = true; // mark it
-        displayVertex(start);                // display it
-        theQueue.insert(start);              // insert in the queue
+        theQueue.insert(vertexList[start].label); // insert in the queue
+        traversal.add(vertexList[start].label); // add to traversal list
         int v2;
-    
-        while (!theQueue.isEmpty()) {        // until the queue is empty
-            int v1 = theQueue.remove();       // remove vertex at head
+
+        while (!theQueue.isEmpty()) { // until the queue is empty
+            int v1 = getVertexIndex(theQueue.remove()); // remove vertex at head
             // until it has no unvisited neighbors
             while ((v2 = getAdjUnvisitedVertex(v1)) != -1) {
-                vertexList[v2].wasVisited = true;  // mark it
-                displayVertex(v2);                 // display it
-                theQueue.insert(v2);               // insert it
+                vertexList[v2].wasVisited = true; // mark it
+                theQueue.insert(vertexList[v2].label); // insert it
+                traversal.add(vertexList[v2].label); // add to traversal list
             }
-        }  // end while
-    
+        } // end while
+
         // the queue is empty, so we're done
         for (int j = 0; j < nVerts; j++) // reset flags
             vertexList[j].wasVisited = false;
-    }  // end bfs()
 
-   public void dfs(int start) { // depth-first search
-    vertexList[start].wasVisited = true;  // mark it
-    displayVertex(start);                 // display it
-    theStack.push(start);                 // push it
-
-    while (!theStack.isEmpty()) {         // until the stack is empty
-        // get an unvisited vertex adjacent to the top of the stack
-        int v = getAdjUnvisitedVertex(theStack.peek());
-        if (v == -1) {                     // if no such vertex,
-            theStack.pop();
-        } else {                           // if it exists,
-            vertexList[v].wasVisited = true; // mark it
-            displayVertex(v);                 // display it
-            theStack.push(v);                 // push it
+        // Display the final traversal
+        System.out.print("BFS Traversal: ");
+        for (char vertex : traversal) {
+            System.out.print(vertex + " ");
         }
-    }  // end while
+        System.out.println();
+    } // end bfs()
 
-    // the stack is empty, so we're done
-    for (int j = 0; j < nVerts; j++) // reset flags
-        vertexList[j].wasVisited = false;
-}  // end dfs()
+    public void dfs(int start) { // depth-first search
+        List<Character> traversal = new ArrayList<>();
+        vertexList[start].wasVisited = true; // mark it
+        theStack.push(vertexList[start].label); // push it
+        traversal.add(vertexList[start].label); // add to traversal list
+        while (!theStack.isEmpty()) { // until the stack is empty
+            int v = getAdjUnvisitedVertex(getVertexIndex(theStack.peek()));
+            if (v == -1) // if no such vertex,
+                theStack.pop();
+            else { // if it exists,
+                vertexList[v].wasVisited = true; // mark it
+                theStack.push(vertexList[v].label); // push it
+                traversal.add(vertexList[v].label); // add to traversal list
+            }
+        } // end while
+        // the stack is empty, so we're done
+        for (int j = 0; j < nVerts; j++) // reset flags
+            vertexList[j].wasVisited = false;
+
+        // Display the final traversal
+        System.out.print("DFS Traversal: ");
+        for (char vertex : traversal) {
+            System.out.print(vertex + " ");
+        }
+        System.out.println();
+    } // end dfs()
 
     public void findPath(int x, int y) {
         if (path(x, y)) {
@@ -113,10 +126,9 @@ public class Graph {
     }
 
     private boolean path(int start, int end) {
-        theStack.push(start); // push the start vertex
+        theStack.push(vertexList[start].label); // push the start vertex
         vertexList[start].wasVisited = true; // mark it as visited
         boolean found = false;
-
         // If we've reached the end, we're done
         if (start == end) {
             found = true;
@@ -128,11 +140,9 @@ public class Graph {
                 }
             }
         }
-
         if (!found) { // If no path was found, pop from the stack
             theStack.pop();
         }
-
         return found; // Return true if a path was found
     }
 
@@ -142,7 +152,16 @@ public class Graph {
                 return j; // return the index of the vertex
         return -1; // if none found
     }
-    
+
+    private int getVertexIndex(char label) {
+        for (int i = 0; i < nVerts; i++) {
+            if (vertexList[i].label == label) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     public void printAdjacencyMatrix() {
         System.out.println("Adjacency Matrix:");
         for (int i = 0; i < nVerts; i++) { // Change numVertices to nVerts
@@ -152,6 +171,4 @@ public class Graph {
             System.out.println();
         }
     }
-    
-}  // end class Graph
-////////////////////////////////////////////////////////////////
+}

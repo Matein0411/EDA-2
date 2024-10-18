@@ -1,49 +1,55 @@
 // Queue.java
 // Class to implement the queue used in BFS (Breadth-First Search)
 ////////////////////////////////////////////////////////////////
-
 public class Queue {
     private final int SIZE = 20;
-    private int[] queueArray;
+    private char[] queArray;
     private int front;
     private int rear;
 
     // Constructor
     public Queue() {
-        queueArray = new int[SIZE];
+        queArray = new char[SIZE];
         front = 0;
         rear = -1;
     }
 
     /**
-     * Inserts an item into the queue.
-     * @param item the item to be inserted
+     * Insert an item into the queue.
+     * @param value the item to be inserted into the queue
      */
-    public void insert(int item) {
-        if (rear == SIZE - 1) {
+    public void insert(char value) {
+        if (rear == SIZE - 1)
             rear = -1;
-        }
-        queueArray[++rear] = item;
+        queArray[++rear] = value;
+        System.out.println("Inserted: " + value);
     }
 
     /**
-     * Removes an item from the queue.
-     * @return the removed item
+     * Remove an item from the queue.
+     * @return the item removed from the queue
      */
-    public int remove() {
-        int temp = queueArray[front++];
-        if (front == SIZE) {
+    public char remove() {
+        char value = queArray[front++];
+        if (front == SIZE)
             front = 0;
-        }
-        return temp;
+        System.out.println("Removed: " + value);
+        return value;
     }
 
     /**
-     * Checks if the queue is empty.
+     * Peek at the front item of the queue without removing it.
+     * @return the front item of the queue
+     */
+    public char peek() {
+        return queArray[front];
+    }
+
+    /**
+     * Check if the queue is empty.
      * @return true if the queue is empty, false otherwise
      */
     public boolean isEmpty() {
         return (rear + 1 == front || (front + SIZE - 1 == rear));
     }
-}  // end class Queue
-////////////////////////////////////////////////////////////////
+}

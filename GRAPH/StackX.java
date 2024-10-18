@@ -1,15 +1,14 @@
 // StackX.java
 // Class to implement the stack used in DFS (Depth-First Search)
 ////////////////////////////////////////////////////////////////
-
 public class StackX {
     private final int SIZE = 20;
-    private int[] stackArray;
+    private char[] stackArray;
     private int top;
 
     // Constructor
     public StackX() {
-        stackArray = new int[SIZE];    // Create array
+        stackArray = new char[SIZE];    // Create array
         top = -1;
     }
 
@@ -17,23 +16,26 @@ public class StackX {
      * Push an item onto the stack.
      * @param value the item to be pushed onto the stack
      */
-    public void push(int value) {
+    public void push(char value) {
         stackArray[++top] = value;
+        System.out.println("Pushed: " + value);
     }
 
     /**
      * Pop an item from the stack.
      * @return the item popped from the stack
      */
-    public int pop() {
-        return stackArray[top--];
+    public char pop() {
+        char value = stackArray[top--];
+        System.out.println("Popped: " + value);
+        return value;
     }
 
     /**
      * Peek at the top item of the stack without removing it.
      * @return the top item of the stack
      */
-    public int peek() {
+    public char peek() {
         return stackArray[top];
     }
 
@@ -53,5 +55,4 @@ public class StackX {
             System.out.print(pop() + " ");
         }
     }
-}  // end class StackX
-////////////////////////////////////////////////////////////////
+}

@@ -2,29 +2,20 @@
 // Demo of MST, BFS, and DFS
 // To run this program: C>java GraphApp
 ////////////////////////////////////////////////////////////////
-
 public class GraphApp {
     public static void main(String[] args) {
         long startTime = System.nanoTime();
         Graph theGraph = new Graph();
 
-        theGraph.addVertex('1');    // 0 (starting point for mst, bfs, dfs)
+        theGraph.addVertex('1');    // 0
         theGraph.addVertex('2');    // 1
         theGraph.addVertex('3');    // 2
         theGraph.addVertex('4');    // 3
-        theGraph.addVertex('5');    // 4
-        theGraph.addVertex('6');    // 5
 
-        theGraph.addEdge(0, 1);     // Edge between vertex 1 and 2
-        theGraph.addEdge(0, 2);     // Edge between vertex 1 and 3
-        theGraph.addEdge(0, 3);     // Edge between vertex 1 and 4
-        theGraph.addEdge(1, 4);     // Edge between vertex 2 and 5
-        theGraph.addEdge(2, 1);     // Edge between vertex 3 and 2
-        theGraph.addEdge(2, 3);     // Edge between vertex 3 and 4
-        theGraph.addEdge(2, 4);     // Edge between vertex 3 and 5
-        theGraph.addEdge(2, 5);     // Edge between vertex 3 and 6
-        theGraph.addEdge(3, 5);     // Edge between vertex 4 and 6
-        theGraph.addEdge(4, 5);     // Edge between vertex 5 and 6
+        theGraph.addEdge(0, 1);     // A-B
+        theGraph.addEdge(1, 2);     // B-C
+        theGraph.addEdge(2, 3);     // C-D
+        theGraph.addEdge(3, 0);     // D-A
 
         // Uncomment the following lines to see the Minimum Spanning Tree (MST)
         // System.out.print("Minimum Spanning Tree: ");
@@ -39,13 +30,12 @@ public class GraphApp {
         theGraph.dfs(0);             // Depth-First Search
         System.out.println();
 
-        System.out.print("Path from 1 to 6: " + "\n");
-        theGraph.findPath(0, 5);    // Find path from vertex 1 to vertex 6
+        // System.out.print("Path from A to D: " + "\n");
+        // theGraph.findPath(0, 3);    // Find path from vertex A to vertex D
 
-        theGraph.printAdjacencyMatrix(); // Print the adjacency matrix of the graph
+        // theGraph.printAdjacencyMatrix(); // Print the adjacency matrix of the graph
 
         System.out.println("Time taken: " + "\n" + (System.nanoTime() - startTime) + " ns");
 
     }  // end main()
-}  // end class GraphApp
-////////////////////////////////////////////////////////////////
+}
